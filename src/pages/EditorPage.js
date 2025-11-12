@@ -12,11 +12,14 @@ import {
 } from 'react-router-dom';
 
 const EditorPage = () => {
+
     const socketRef = useRef(null);
     const codeRef = useRef(null);
     const location = useLocation();
     const { roomId } = useParams();
+
     const reactNavigator = useNavigate();
+
     const [clients, setClients] = useState([]);
 
     useEffect(() => {
@@ -65,15 +68,19 @@ const EditorPage = () => {
                 }
             );
         };
+
         init();
+
         return () => {
             socketRef.current.disconnect();
             socketRef.current.off(ACTIONS.JOINED);
             socketRef.current.off(ACTIONS.DISCONNECTED);
         };
+
     }, []);
 
     async function copyRoomId() {
+        
         try {
             await navigator.clipboard.writeText(roomId);
             toast.success('Room ID has been copied to your clipboard');
